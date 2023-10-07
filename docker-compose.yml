@@ -1,0 +1,9 @@
+services:
+  stockpile:
+    image: stockpile:latest
+    build: .
+    volumes:
+      - ./output/:/output
+    env_file:
+      - ./.env
+    entrypoint: ["stockpile"]
