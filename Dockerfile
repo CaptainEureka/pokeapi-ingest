@@ -10,7 +10,8 @@ WORKDIR /app
 COPY pyproject.toml poetry.lock /app/
 
 # Install dependencies
-RUN poetry install --no-ansi --no-interaction --all-extras
+RUN poetry install --no-ansi --no-interaction --all-extras \
+	--without=dev,tools
 
 COPY . /app
 

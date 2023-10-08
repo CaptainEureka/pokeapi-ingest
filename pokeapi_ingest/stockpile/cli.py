@@ -28,7 +28,7 @@ def ingest(
         typer.Option(
             help=(
                 "The file path where the ingested data will be saved. "
-                "Defaults to 'output.json' in a timestamped run folder."
+                "Defaults to 'pokemon_data.json' in a timestamped run folder."
             )
         ),
     ] = None,
