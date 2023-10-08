@@ -1,6 +1,6 @@
 from typing import Iterator, List, NewType, Sequence
 
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, HttpUrl
 
 PokemonId = NewType("PokemonId", int)
 
@@ -12,7 +12,7 @@ class Type(BaseModel):
 
 class PokemonType(BaseModel):
     slot: int
-    _type: Type
+    type: Type
 
 
 class Ability(BaseModel):
@@ -27,7 +27,7 @@ class PokemonAbility(BaseModel):
 
 
 class Pokemon(BaseModel):
-    id: int = Field(..., alias="id")
+    id: int
     name: str
     types: Sequence[PokemonType]
     height: int
