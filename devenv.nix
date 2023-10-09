@@ -1,7 +1,8 @@
 {pkgs, ...}: {
-  # packages = [
-  #
-  # ];
+  packages = [
+    pkgs.vhs
+  ];
+
   dotenv.enable = true;
 
   # https://devenv.sh/languages/

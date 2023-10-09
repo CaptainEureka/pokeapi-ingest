@@ -4,15 +4,11 @@ from typing import Any, Dict, List, Optional, Protocol
 
 import requests
 from requests.adapters import HTTPAdapter
-from rich.logging import RichHandler
 
 from pokeapi_ingest.service.models import Pokemon, PokemonData, PokemonId
 from pokeapi_ingest.stockpile.observers import IProgressObserver
 
-logging.basicConfig(
-    level=logging.INFO, format="%(message)s", datefmt="[%X]", handlers=[RichHandler()]
-)
-logger = logging.getLogger("PokeAPIService")
+logger = logging.getLogger()
 
 
 class IPokeApiService(Protocol):
@@ -20,6 +16,18 @@ class IPokeApiService(Protocol):
         ...
 
     def get_all(self, batch_size: int) -> PokemonData:
+        ...
+
+    def register_observer(self, observer: IProgressObserver):
+        ...
+
+    def notify_start(self, total_count: int):
+        ...
+
+    def notify_update(self, increment: int):
+        ...
+
+    def notify_complete(self):
         ...
 
 
@@ -59,7 +67,6 @@ class PokeApiService(IPokeApiService):
             print(f"An error occurred while fetching data: {e}")
             raise
 
-    # TODO: get subresources ?
     def get_pokemon_by_id(self, id: PokemonId) -> PokemonData:
         logger.info(f"Fetching Pokemon by ID: {id}")
         data = self._fetch_data(f"{self.url}/{id}/")

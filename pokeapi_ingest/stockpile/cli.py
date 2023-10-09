@@ -5,9 +5,12 @@ from typing import Annotated, Optional
 import typer
 from dotenv import load_dotenv
 
+from pokeapi_ingest.stockpile.logging import configure_logging
 from pokeapi_ingest.stockpile.main import main
 
 app = typer.Typer()
+
+logger = configure_logging()
 
 load_dotenv()
 

@@ -27,7 +27,7 @@ pytest-sugar = "^0.9.7"
 [tool.poetry.group.tools.dependencies]
 poethepoet = "^0.24.0"
 
-[tool.pytest.ini-options]
+[tool.pytest.ini_options]
 markers = ["unit: marks all unittests.", "integ: marks all integration tests."]
 
 [tool.poe.tasks]

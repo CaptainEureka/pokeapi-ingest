@@ -1,3 +1,4 @@
+import logging
 import os
 from datetime import datetime
 from pathlib import Path
@@ -11,6 +12,9 @@ from rich.progress import BarColumn, Progress, TextColumn, TimeElapsedColumn
 from pokeapi_ingest.service.models import PokemonData, PokemonId
 from pokeapi_ingest.service.pokeapi_service import PokeApiService
 from pokeapi_ingest.stockpile.observers import RichProgressObserver
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 progress = Progress(
     TextColumn(
@@ -31,7 +35,7 @@ def generate_json_and_status(
     """Generate serialized JSON strings and current progress."""
     total_items = len(pokemon_data.data)
     for idx, pokemon in enumerate(pokemon_data.to_iter()):
-        yield (pokemon.model_dump_json(indent=2), int((idx / total_items) * 100))
+        yield (pokemon.model_dump_json(), int((idx / total_items) * 100))
 
 
 def save_to_json_file(pokemon_data: PokemonData, output_dir: Path) -> None:
@@ -48,17 +52,17 @@ def save_to_json_file(pokemon_data: PokemonData, output_dir: Path) -> None:
             total=99,
         )
 
-        f.write("[")  # Start of JSON array
+        f.write("[\n")  # Start of JSON array
 
         for idx, (json_str, progress_percentage) in enumerate(
             generate_json_and_status(pokemon_data)
         ):
             if idx > 0:
-                f.write(", ")  # Separator between items
+                f.write(",\n")  # Separator between items
             f.write(json_str)
             p.update(task, completed=progress_percentage, advance=1)
 
-        f.write("]")
+        f.write("\n]")
 
     print(f"\n📁 [cyan]Saved to[/] `{file_path.as_posix()}`")
 
