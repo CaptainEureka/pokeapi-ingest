@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   packages = [
     pkgs.vhs
+    pkgs.flyctl
   ];
 
   dotenv.enable = true;
