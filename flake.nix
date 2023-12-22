@@ -11,7 +11,11 @@
     pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
   in {
     packages = forAllSystems (system: {
-      default = pkgs.${system}.poetry2nix.mkPoetryApplication {projectDir = self;};
+      default = pkgs.${system}.poetry2nix.mkPoetryApplication {
+        projectDir = self;
+        pyproject = ./pyproject.toml;
+        poetrylock = ./poetry.lock;
+      };
     });
 
     devShells = forAllSystems (system: {
